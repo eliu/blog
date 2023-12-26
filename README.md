@@ -29,16 +29,15 @@ $ npm install --save hexo-asset-link
 $ npm install --save hexo-theme-next
 ```
 
-### 5. Fill {passkey}
+### 5. Setup personal accesss token
 
-Edit file `_config.yml` and replace `{passkey}` with real passkey.
+Get personal access token from Github and set value to environment variable `$GITHUB_TOKEN_HEXO`
 
-```yaml
-deploy:
-  type: git
-  repository: https://{passkey}/eliu/eliu.github.io.git
-  branch: master
+```shell
+export GITHUB_TOKEN_HEXO={token}
 ```
+
+
 
 
 

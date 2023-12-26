@@ -107,5 +107,6 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repository: https://{passkey}@github.com/eliu/eliu.github.io.git
+  repo: https://github.com/eliu/eliu.github.io.git
+  token: $GITHUB_TOKEN_HEXO
   branch: main
