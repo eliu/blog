@@ -42,8 +42,21 @@ sed -i.bak \
     -e 's|^mirrorlist=|#mirrorlist=|g' \
     -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.aliyun.com/rockylinux|g' \
     /etc/yum.repos.d/rocky*.repo
-dnf makecache
 ```
+
+之后运行 `sudo dnf makecache` 更新缓存。
+
+### AlmaLinux
+
+```shell
+# https://developer.aliyun.com/mirror/almalinux
+sed -i.bak \
+	-e 's|^mirrorlist=|#mirrorlist=|g' \
+	-e 's|^#\s*baseurl=https\?://repo.almalinux.org|baseurl=https://mirrors.aliyun.com|g' \
+	/etc/yum.repos.d/almalinux*.repo
+```
+
+之后运行 `sudo dnf makecache` 更新缓存。
 
 ## 设置 DNS
 
@@ -124,8 +137,8 @@ cat > /etc/docker/daemon.json <<< EOF
 {
     "registry-mirrors": [
         "https://8km017g6.mirror.aliyuncs.com",
-        "hub-mirror.c.163.com",
-        "registry.docker-cn.com"
+        "https://hub-mirror.c.163.com",
+        "https://registry.docker-cn.com"
     ]
 }
 EOF
