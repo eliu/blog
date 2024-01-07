@@ -45,11 +45,11 @@ installer.git.enabled=true
 
 判断注释行：以 `#` 开头的全部删除，正则表达式为 `/^#/`
 
-<iframe frameborder="0" width="100%" height="85" src="https://jex.im/regulex/#!embed=true&flags=&re=%5E%23"></iframe>
+<div style="background-color:#EEE;text-align:center"><img src="properties_pattern_01.png" /></div>
 
 判断空行：仅包含0个或多个空格符的行，正则表达式为 `/^\s*$/`
 
-<iframe frameborder="0" width="100%" height="125" src="https://jex.im/regulex/#!embed=true&flags=&re=%5E%5Cs*%24"></iframe>
+<div style="background-color:#EEE;text-align:center"><img src="properties_pattern_02.png" /></div>
 
 最后，在 sed 中剔除命中的行时使用操作符 `d` ，例如删除注释行，我们可以写成 `/^#/d`，以下就是我们的最终的命令：
 
@@ -154,6 +154,10 @@ echo ${config[@]}
 至此，所有问题都已解决。在我的项目 [devbox](https://github/eliu/devbox) 中，配置管理模块 `config.sh` 就是使用上面的解决方案读取的配置文件。
 
 [devbox/lib/modules/config.sh at master · eliu/devbox (github.com)](https://github.com/eliu/devbox/blob/master/lib/modules/config.sh)
+
+## 鸣谢
+
+正则表达式可视化图片由 [Regulex - JavaScript Regular Expression Visualizer](https://jex.im/regulex/#) 生成，特此感谢！
 
 End~
 
