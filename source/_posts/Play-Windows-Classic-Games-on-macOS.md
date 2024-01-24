@@ -50,7 +50,7 @@ $ brew cask install --no-quarantine wine-crossover
 我们准备将 Wine 的主目录存储在 `$HOME/.wine/` 下，在终端执行一下命令：
 
 ```shell
-$ WINEARCH=win32 WINEPREFIX=$HOME/.wine winecfg
+$ WINEPREFIX=$HOME/.wine winecfg
 ```
 
 此时 WIne 会启动一个包含若干标签页的配置窗口，我们需要设置以下内容：
@@ -102,7 +102,7 @@ export WINEDEBUG=-all
 export WINEPREFIX=~/.wine
 ```
 
-### 4. 配置`暗黑破坏神II`
+### 4. 配置游戏：Diablo II
 
 我们以 Diablo II 为例来进行说明，首先进入目录 `$HOME/.wine/drive_c` ，然后新建目录 `games`：
 
@@ -124,6 +124,8 @@ $ alias d2="cd $HOME/.wine/drive_c/games/Diablo\ II && wine Game.exe -w -direct 
 $ d2
 ```
 
+![DiabloI II](Play-Windows-Classic-Games-on-macOS/d2.png)
+
 至此，Diablo II 的基本设置就已经全部完成，其他的经典游戏步骤类似，笔者已经测试通过了如下经典游戏：
 
 - 暗黑破坏神 II
@@ -136,22 +138,15 @@ $ d2
 `$HOME/.zshrc` 或者 `$HOME/.bashrc`
 
 ```shell
-# Fix error `terminals database is inaccessible` for Wine Crossover 20.x
+# Fix error `terminals database is inaccessible`
 export TERMINFO=/usr/share/terminfo
-# 禁止在终端输出所有调试信息
+# Disable debugging message output
 export WINEDEBUG=-all
-# Wine 主目录
+# Set up wine home directory
 export WINEPREFIX=~/.wine
-# 运行 32 位的 Windows
-export WINEARCH=win32
 export WINEGAMEHOME="$WINEPREFIX/drive_c/games"
 alias wine="env LC_ALL=zh_CN.UTF-8 wine"
-alias d2="cd $WINEGAMEHOME/Diablo\ II && wine Game.exe -direct -txt"
-alias rtcw="cd $WINEGAMEHOME/RealRTCW/Return\ to\ Castle\ Wolfenstein && wine RealRTCW.x86.exe"
-alias fba="cd $WINEGAMEHOME/fba && wine fbaxp.exe"
-alias pal4="cd $WINEGAMEHOME/PAL4 && wine PAL4.exe"
-alias pal4cfg="cd $WINEGAMEHOME/PAL4 && wine Config.exe"
-alias war3="cd $WINEGAMEHOME/Warcraft\ III && wine Frozen\ Throne.exe"
+alias d2="cd $WINEGAMEHOME/Diablo\ II && wine Game.exe -w -direct -txt"
 ```
 
 ## 参考链接

@@ -34,6 +34,7 @@ installer.git.enabled=true
 1. 允许有注释行，该行以 `#` 开头且不包含实际的配置项
 2. 允许有空行
 3. 配置项以等号 `=` 作为分割符，左侧为属性名称，右侧为值
+3. `=` 两边去除空白字符（可选实现）
 
 好了，知道所有的特征之后，接下来我们着手进行代码的实现。
 
@@ -67,6 +68,8 @@ installer.maven.enabled=true
 installer.git.enabled=true
 ```
 
+
+
 ### 解析配置项
 
 配置项是 `key=value` 形式，我们可以循环管道中过滤后的结果中的每一行，然后按等号 `=` 进行分割。我们可以利用 `while` 和 `read` 结合起来进行读取，read 命令可以以环境变量 `IFS` 的值作为分隔符进行拆解和读取到指定的变量中。例如下面的代码：
@@ -96,6 +99,8 @@ installer.git.enabled -> true
 ```
 
 看起来符合我们的预期，因为我们使用 `echo` 已经输出了我们想要的读取的值，完美！然而，真的是这样么？到目前为止，我们只是解析出来了配置项的值，但是还没有进行存储以备其他过程进一步使用。
+
+
 
 ### 值不见了？
 
@@ -135,14 +140,45 @@ while ...; do
 done < <(command)
 ```
 
+### 去除等号两边的空白字符
+
+这是一个可选需求，因为正常的属性文件格式要求属性名称、等号和值之间不能有空格。不过笔者习惯使用自由度大一点的配置格式，允许有些空白字符来美化一下格式。为了更直观的展示这个场景，我们假设用 `#` 来表示空白字符话，目标字符串就是 `###foo##`。如果我们要去除两边的空白字符（此处是符号#）的话，下面的正则表达式可以完成：
+
+```bash
+# 先剔除左边的符号#，再剔除右侧的符号#
+$ echo "###foo##" | sed -e 's/^#*//' -e 's/#*$//'
+foo
+```
+
+整理成函数的话就是如下形式，函数接受一个带处理的字符串 $1，返回去除空白字符的值。
+
+```bash
+# ----------------------------------------------------------------
+# Trim both leading and trailing whitespaces
+# Parameters
+# $1 -> string to be trimmed
+# ----------------------------------------------------------------
+function trimspaces() {
+  echo $1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+}
+```
+
+ 
+
+### 完整代码
+
 套用到我们的需求之后，最终形成的代码如下：
 
 ```bash
 #!/bin/bash
 declare -A config
 
+function trimspaces() {
+  echo $1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+}
+
 while IFS='=' read -r prop value; do
-  config[$prop]=$value
+  config[$(trimspaces $prop)]=$(trimspaces $value)
 done < <(cat config.properties | sed -e '/^\s*$/d' -e '/^#/d')
 
 echo ${!config[@]}
@@ -155,9 +191,11 @@ echo ${config[@]}
 
 [devbox/lib/modules/config.sh at master · eliu/devbox (github.com)](https://github.com/eliu/devbox/blob/master/lib/modules/config.sh)
 
+
+
 ## 鸣谢
 
-正则表达式可视化图片由 [Regulex - JavaScript Regular Expression Visualizer](https://jex.im/regulex/#) 生成，特此感谢！
+正则表达式可视化图片由 [Regulex - JavaScript Regular Expression Visualizer](https://jex.im/regulex/#) 生成，特此感谢 (R.I.P Jex)！
 
 End~
 
