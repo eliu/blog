@@ -29,13 +29,13 @@ tags:
 
 本次我们将使用 Homebrew 来安装 Wine，Homebrew 是 macOS 下最流行的包管理器，如果您还没有安装 Homebrew，请访问 [Homebrew 官网](https://brew.sh/)详细了解，或者直接在终端使用以下命令进行安装：
 
-```shell
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```bash
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 接下来我们使用 Homebrew 来安装 Wine:
 
-```shell
+```bash
 $ sudo spctl --master-disable # 允许未知来源的软件安装
 $ brew tap gcenx/wine
 $ brew cask install --no-quarantine wine-crossover
@@ -43,13 +43,13 @@ $ brew cask install --no-quarantine wine-crossover
 
 ## 配置 Wine
 
-我们的目标是运行 Windows 下的经典游戏，因此此处所有的配置都是针对这个目标进行的。
+我们的目标是运行 Windows 下的经典游戏，因此此处所有的配置都是针对这个目标进行的。接下来我们开始配置 Wine 环境。
 
-### 1. 初始化 Wine
+### 初始化 Wine
 
 我们准备将 Wine 的主目录存储在 `$HOME/.wine/` 下，在终端执行一下命令：
 
-```shell
+```bash
 $ WINEPREFIX=$HOME/.wine winecfg
 ```
 
@@ -83,30 +83,38 @@ $ WINEPREFIX=$HOME/.wine winecfg
 
 至此，Wine 所有的安装和配置工作全部结束，接下来就是如何在 Wine 中运行经典的游戏了。
 
-### 2. 解决中文乱码
+### 解决中文乱码
 
-在终端的 shell 配置文件中为 `wine` 添加别名：
+在终端的 shell 配置文件中为 `wine64` 添加别名 `wine`，如下：
 
-```shell
-alias wine="env LC_ALL=zh_CN.UTF-8 wine"
+```bash
+alias wine="env LC_ALL=zh_CN.UTF-8 wine64"
 ```
 
-### 3. 环境变量配置
+### 汇总配置项
 
-```shell
-# Fix error `terminals database is inaccessible` for Wine Crossover 20.x
+将以上配置项汇总后保存在 `$HOME/.bashrc` 中，如果当前安装的 shell 是 zsh 的话，则保存在 `$HOME/.zshrc`
+
+```bash
+# 解决报错：terminals database is inaccessible
 export TERMINFO=/usr/share/terminfo
 # 禁止在终端输出所有调试信息
 export WINEDEBUG=-all
 # Wine 主目录
 export WINEPREFIX=~/.wine
+# 解决中文乱码并创建别名
+alias wine="env LC_ALL=zh_CN.UTF-8 wine64"
 ```
 
-### 4. 配置游戏：Diablo II
+
+
+## 运行经典游戏
+
+### Diablo II
 
 我们以 Diablo II 为例来进行说明，首先进入目录 `$HOME/.wine/drive_c` ，然后新建目录 `games`：
 
-```shell
+```bash
 $ cd $HOME/.wine/drive_c
 $ mkdir games
 ```
@@ -119,25 +127,24 @@ $ mkdir games
 
 在终端启动 Diablo II：
 
-```shell
+```bash
 $ alias d2="cd $HOME/.wine/drive_c/games/Diablo\ II && wine Game.exe -w -direct -txt"
 $ d2
 ```
 
 ![DiabloI II](Play-Windows-Classic-Games-on-macOS/d2.png)
 
-至此，Diablo II 的基本设置就已经全部完成，其他的经典游戏步骤类似，笔者已经测试通过了如下经典游戏：
+至此，Diablo II 游戏的基本设置就已经全部完成。其他的经典游戏步骤类似，笔者已经测试通过了如下经典游戏：
 
 - 暗黑破坏神 II
 - 重返德军总部
-- ~~仙剑奇侠传四~~
 - 魔兽争霸 III （过场动画会报错）
 
 ## 附录：终端环境配置汇总
 
-`$HOME/.zshrc` 或者 `$HOME/.bashrc`
+追加如下配置到 `$HOME/.zshrc` 或者 `$HOME/.bashrc`
 
-```shell
+```bash
 # Fix error `terminals database is inaccessible`
 export TERMINFO=/usr/share/terminfo
 # Disable debugging message output

@@ -108,5 +108,5 @@ theme: next
 deploy:
   type: git
   repo: https://github.com/eliu/eliu.github.io.git
-  token: $GITHUB_TOKEN_HEXO
+  token: $HEXO_GITHUB_TOKEN
   branch: main
