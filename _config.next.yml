@@ -210,13 +210,13 @@ footer:
     # Icon name in Font Awesome. See: https://fontawesome.com/icons
     name: fa fa-heart
     # If you want to animate the icon, set it to true.
-    animated: false
+    animated: true
     # Change the color of icon, using Hex Code.
     color: "#ff0000"
 
   # If not defined, `author` from Hexo `_config.yml` will be used.
   # Set to `false` to disable the copyright statement.
-  copyright: Liu Hongyu(eliu). All rights reserved.
+  copyright: eliu. All rights reserved.
 
   # Powered by Hexo & NexT
   powered: true
@@ -703,9 +703,9 @@ disqusjs:
 # Changyan
 # For more information: https://changyan.kuaizhan.com
 changyan:
-  enable: false
-  appid: 
-  appkey: 
+  enable: true
+  appid: $HEXO_CHANGYAN_APPID
+  appkey: $HEXO_CHANGYAN_APPKEY
   # Show comments count
   count: true
 
@@ -836,7 +836,7 @@ firestore:
 # Show Views / Visitors of the website / page with busuanzi.
 # For more information: http://ibruce.info/2015/04/04/busuanzi/
 busuanzi_count:
-  enable: false
+  enable: true
   total_visitors: true
   total_visitors_icon: fa fa-user
   total_views: true
