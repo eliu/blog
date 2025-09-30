@@ -101,23 +101,30 @@ gcc version 9.3.1 20200408 (Red Hat 9.3.1-2) (GCC)
 
 ## 自动化脚本
 
-按照以上的实践步骤形成的自动升级脚本：
+按照以上的实践步骤形成的自动升级的附加脚本：
 
 ```bash
 #!/usr/bin/env bash
 source /etc/os-release
+
+if [[ $VERSION_ID != "7" ]] && [[ $ID != 'centos' ]]; then
+  echo "Error: This addon can only be applied on centos7. Exiting..."
+  exit 1
+fi
+
 SCLO_BASEURL="https://mirrors.aliyun.com/centos/${VERSION_ID}/sclo/x86_64/sclo/"
 RH_BASEURL="https://mirrors.aliyun.com/centos/${VERSION_ID}/sclo/x86_64/rh/"
 DEVTOOLSET_VERSION=9
 sudo yum install -y centos-release-scl
-sed -i.bak "s~#\s*baseurl=.*mirrors.*~baseurl=${SCLO_BASEURL}~; s~^\(mirrorlist\)~# \1~" \
+sudo sed -i.bak "s~#\s*baseurl=.*mirror.*~baseurl=${SCLO_BASEURL}~; s~^\(mirrorlist\)~# \1~" \
 	/etc/yum.repos.d/CentOS-SCLo-scl.repo
-sed -i.bak "s~#\s*baseurl=.*mirrors.*~baseurl=${RH_BASEURL}~; s~^\(mirrorlist\)~# \1~" \
+sudo sed -i.bak "s~#\s*baseurl=.*mirror.*~baseurl=${RH_BASEURL}~; s~^\(mirrorlist\)~# \1~" \
 	/etc/yum.repos.d/CentOS-SCLo-scl-rh.repo
 yum clean all
 yum makecache
 sudo yum install -y "devtoolset-${DEVTOOLSET_VERSION}-gcc*"
 echo "source /opt/rh/devtoolset-${DEVTOOLSET_VERSION}/enable" >> ~/.bashrc
+
 ```
 
 
