@@ -668,7 +668,7 @@ comments:
   style: tabs
   # Choose a comment system to be displayed by default.
   # Available values: disqus | disqusjs | changyan | livere | gitalk | utterances
-  active:
+  active: changyan
   # Setting `true` means remembering the comment system selected by the visitor.
   storage: true
   # Lazyload all comment systems.
@@ -704,8 +704,8 @@ disqusjs:
 # For more information: https://changyan.kuaizhan.com
 changyan:
   enable: true
-  appid: $HEXO_CHANGYAN_APPID
-  appkey: $HEXO_CHANGYAN_APPKEY
+  appid: cyx7edfES
+  appkey: c2ee5b03398bb230bdee1cb58905aa59
   # Show comments count
   count: true
 
