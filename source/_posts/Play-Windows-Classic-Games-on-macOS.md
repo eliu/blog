@@ -38,7 +38,7 @@ $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/
 ```bash
 $ sudo spctl --master-disable # 允许未知来源的软件安装
 $ brew tap gcenx/wine
-$ brew cask install --no-quarantine wine-crossover
+$ brew install --cask wine-crossover
 ```
 
 ## 配置 Wine
